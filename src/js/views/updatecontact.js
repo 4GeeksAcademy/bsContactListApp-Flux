@@ -1,14 +1,25 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-function CreateContact() {
+function UpdateContact() {
     const {store, actions}=useContext(Context)
     const [fullName, setFullName]=useState("")
     const [email, setEmail]=useState("")
     const [phone, setPhone]=useState("")
     const [address, setAddress]=useState("")
     const { state } = useLocation()
+
+    useEffect(()=>{
+        handleSetValues()
+    },[])
+
+    function handleSetValues() {
+        setFullName(state.contact.name)
+        setPhone(state.contact.phone)
+        setEmail(state.contact.email)
+        setAddress(state.contact.address)
+    }
 
     console.log(state)
   return (
@@ -61,7 +72,7 @@ function CreateContact() {
         />
       </div>
       <div>
-      <Link to="/" className="bg-primary text-white col-12 border none text-center" type="button" style={{fontSize: '20px'}} onClick={() => {actions.createContact(fullName, email, phone, address); }}>Save</Link>
+      <Link to="/" className="bg-primary text-white col-12 border none text-center" type="button" style={{fontSize: '20px'}} onClick={() => {actions.updateContact(state.contact.id, fullName, email, phone, address); }}>Save</Link>
       </div>
       <Link to="/">
         Back to create contacts
@@ -70,4 +81,4 @@ function CreateContact() {
   );
 }
 
-export default CreateContact;
+export default UpdateContact;
